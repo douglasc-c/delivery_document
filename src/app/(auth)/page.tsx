@@ -1,7 +1,32 @@
 import ButtonSend from '@/components/buttons/button-send'
 import React from 'react'
 
-export default function SignIn() {
+export default async function SignIn() {
+  const eventHandler = async () => {
+    try {
+      const response = await fetch('URL_DO_SEU_BACKEND', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          // outras headers necessárias
+        },
+        body: JSON.stringify({
+          // dados que você precisa enviar para o backend para a validação
+        }),
+      })
+
+      if (response.ok) {
+        // A resposta do backend foi bem-sucedida, agora você pode redirecionar
+        window.location.href = `/${path}`
+      } else {
+        // A resposta do backend indica que a validação falhou
+        console.error('Validação falhou')
+      }
+    } catch (error) {
+      console.error('Erro ao fazer a requisição:', error)
+    }
+  }
+
   return (
     <main>
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -38,7 +63,7 @@ export default function SignIn() {
                 placeholder="Digite sua senha"
               />
             </div>
-            <ButtonSend params={{ title: 'Entrar' }} />
+            <ButtonSend params={{ title: 'Entrar', path: '/dashboard' }} />
           </form>
         </div>
       </div>
